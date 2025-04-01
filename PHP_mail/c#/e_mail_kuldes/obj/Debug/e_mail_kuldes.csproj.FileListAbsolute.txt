@@ -1,0 +1,7 @@
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\obj\Debug\e_mail_kuldes.csprojAssemblyReference.cache
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\obj\Debug\e_mail_kuldes.csproj.CoreCompileInputs.cache
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\bin\Debug\e_mail_kuldes.exe.config
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\bin\Debug\e_mail_kuldes.exe
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\bin\Debug\e_mail_kuldes.pdb
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\obj\Debug\e_mail_kuldes.exe
+C:\Users\munka\source\repos\e_mail_kuldes\e_mail_kuldes\obj\Debug\e_mail_kuldes.pdb

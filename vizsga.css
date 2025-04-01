@@ -1,0 +1,305 @@
+/* Alapstílusok */
+:root {
+    --alap-szin: #000000;
+    --kiemelt-szin: #ff0000;
+    --gazdasagos-hatter: #d3d1d1;
+    --csaladi-hatter: #d3d1d1;
+    --luxus-hatter: #d3d1d1;
+    --sport-hatter: #d3d1d1;
+    --kategoria-keret: #333;
+    --kategoria-arnyek: rgba(0,0,0,0.1);
+    --hover-arnyek: rgba(0,0,0,0.2);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Fejléc */
+header {
+    background: linear-gradient(90deg, #2a9d8f, #264653);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-bottom: 4px solid #e76f51;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    margin: 0;
+    color: #f4a261;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #e9c46a;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+header img.logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #f4a261;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+
+header img.logo:hover {
+    transform: scale(1.1);
+}
+
+/* Navigáció */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #fff;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+nav ul li a:hover {
+    background: var(--kiemelt-szin);
+    transform: scale(1.1);
+    color: white;
+}
+
+/* Fő tartalom */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Autók rácsos elrendezése */
+.autok-halo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Autókártyák */
+.auto {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--kategoria-arnyek);
+    text-align: center;
+    padding: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.auto:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px var(--hover-arnyek);
+}
+
+.auto img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.auto h3 {
+    font-size: 1.2rem;
+    color: var(--alap-szin);
+    margin: 10px 0;
+}
+
+.auto p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Gombok */
+button {
+    background: var(--alap-szin);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: var(--kiemelt-szin);
+    transform: scale(1.05);
+}
+
+/* Űrlapok */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form textarea, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #000;
+    color: white;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background: var(--kiemelt-szin);
+}
+
+/* Lábléc */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    background: linear-gradient(90deg, #000, #ff0000);
+    color: white;
+    text-align: center;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+    border-top: 4px solid #ff0101;
+}
+
+/* Gombok konténer */
+.gombok-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stilusos-gomb {
+    background: linear-gradient(90deg, #2a9d8f, #264653);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    min-width: 120px;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.stilusos-gomb:hover {
+    background: linear-gradient(90deg, #3cb371, #2b5b40);
+    transform: scale(1.05);
+}
+
+.stilusos-gomb:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Overlay */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 998;
+    display: none;
+}
+
+/* Regisztráció és belépés modális ablakok */
+#regisztracio, #belepes {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 999;
+    display: none;
+}
+
+.bezaras-gomb {
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.bezaras-gomb:hover {
+    background-color: #cc0000;
+}
+.torles-gomb {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+}
+
+.torles-gomb:hover {
+    transform: scale(1.2);
+}
+#auto-kereso:focus {
+    border-color: #2a9d8f;
+    outline: none;
+    box-shadow: 0 0 4px #2a9d8f66;
+  }
+  
