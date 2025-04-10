@@ -7,6 +7,17 @@ include 'db.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <?php
+// Csatlakozás az adatbázishoz, ha még nem történt meg
+include 'db.php';
+
+$fejlecHatter = 'kepek/alap.png'; // Alapértelmezett háttérkép
+$lekerdezes = $kapcsolat->query("SELECT ertek FROM beallitasok WHERE kulcs = 'fejléc_kep'");
+if ($lekerdezes && $lekerdezes->num_rows > 0) {
+    $sor = $lekerdezes->fetch_assoc();
+    $fejlecHatter = $sor['ertek'];
+}
+?>
   <title>InnovTrade - Autókölcsönző</title>
   <?php
   // Foglalt autók kigyűjtése JavaScript változóba
@@ -32,6 +43,10 @@ include 'db.php';
   <link rel="stylesheet" href="vizsga.css">
   <script src="vizsga.js" defer></script>
   <style>
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
     .dropdown {
       position: relative;
       display: inline-block;
@@ -91,12 +106,36 @@ include 'db.php';
     section:not(#kezdolap):not(#autok) {
       display: none;
     }
+    .btn {
+    background-color: white;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #ddd;
+}
   </style>
 </head>
 <body>
-  <header>
+  <header style="background: url('kepek/kep1.png') no-repeat center center; background-size: cover; padding: 60px 0; text-align: center; color: white;">
     <div class="header-container">
-      <img src="kepek/logo.png" alt="InnovTrade Logó" class="logo">
+        <img src="kepek/logo.png" alt="InnovTrade logó" style="width: 100px; border-radius: 50%;">
+        <h1 style="font-size: 3em; text-shadow: 2px 2px 5px #000;">INNOVTRADE - AUTÓKÖLCSÖNZŐ</h1>
+        <p style="font-size: 1.2em; text-shadow: 1px 1px 3px #000;">Minőségi autók minden kategóriában. Találd meg az igazit!</p>
+        <nav>
+            <a href="index.php" class="btn">Kezdőlap</a>
+            <a href="#" class="btn">Autók ▼</a>
+            <a href="foglalas.php" class="btn">Foglalás</a>
+            <a href="kapcsolat.php" class="btn">Kapcsolat</a>
+            <a href="velemenyek.php" class="btn">Vélemények</a>
+        </nav>
+    </div>
+</header>
       <h1>InnovTrade - Autókölcsönző</h1>
     </div>
     <p class="header-description">Minőségi autók minden kategóriában. Találd meg az igazit!</p>
