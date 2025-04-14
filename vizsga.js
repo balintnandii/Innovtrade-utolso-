@@ -1,15 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
-    /* KATEGÓRIA MEGJELENÍTÉSE */
-    window.kategoriaMegjelenites = function (kategoriaId) {
-        let kategoriak = document.getElementsByClassName("kategoria");
-        for (let i = 0; i < kategoriak.length; i++) {
-            kategoriak[i].style.display = "none";
-        }
-        let kivalasztott = document.getElementById(kategoriaId);
-        if (kivalasztott) {
-            kivalasztott.style.display = "block";
-        }
-    };
+window.kategoriaMegjelenites = function (kategoriaId) {
+    const autokDiv = document.getElementById("autok-halo");
+    if (!autokDiv) return;
+
+    const autok = autokDiv.querySelectorAll(".auto");
+
+    if (kategoriaId === "osszes") {
+        autok.forEach(auto => auto.style.display = "block");
+    } else {
+        autok.forEach(auto => {
+            if (auto.classList.contains(kategoriaId)) {
+                auto.style.display = "block";
+            } else {
+                auto.style.display = "none";
+            }
+        });
+    }
+};
+
 
     // Kosár inicializálása sessionStorage-ból
     let kosar = JSON.parse(sessionStorage.getItem("kosar")) || [];
@@ -206,53 +213,52 @@ window.addEventListener("DOMContentLoaded", () => {
     const szuroSelect = document.getElementById("szuro-select");
     const kategoriakSelect = document.getElementById("kategoriak-select");
 
-    // 🔍 Keresés vagy szűrés indítása
     function frissitAutoLista() {
-        const kifejezes = keresoInput.value.toLowerCase();
-        const szuro = szuroSelect.value;
-        const kategoria = kategoriakSelect.value;
-
-        document.querySelectorAll(".auto").forEach(auto => {
+        const kereso = document.getElementById("kereso-input").value.toLowerCase();
+        const kategoria = document.getElementById("kategoriak-select").value;
+        const szuro = document.getElementById("szuro-select").value;
+    
+        let autok = Array.from(document.querySelectorAll(".auto"));
+    
+        // SZŰRÉS
+        autok.forEach(auto => {
             const nev = auto.querySelector("h3").textContent.toLowerCase();
-            const leiras = auto.querySelector("p").textContent.toLowerCase();
-            const ar = parseInt(auto.querySelector("p:nth-of-type(2)").textContent.replace(/\D/g, ""));
-            const kategoriaElem = auto.classList.contains(kategoria);
-
-            let megjelenit = true;
-
-            if (kategoria !== "osszes" && !kategoriaElem) {
-                megjelenit = false;
+            const kategoriaVan = auto.classList.contains(kategoria);
+            let lathato = true;
+    
+            if (kategoria !== "osszes" && !kategoriaVan) {
+                lathato = false;
             }
-
-            if (!nev.includes(kifejezes) && !leiras.includes(kifejezes)) {
-                megjelenit = false;
+    
+            if (!nev.includes(kereso)) {
+                lathato = false;
             }
-
-            auto.style.display = megjelenit ? "block" : "none";
+    
+            auto.style.display = lathato ? "block" : "none";
         });
-
-        // Rendezes
-        const autokContainer = document.querySelectorAll(".kategoria");
-        autokContainer.forEach(kat => {
-            let autok = Array.from(kat.querySelectorAll(".auto"));
-            let rendezett = autok.sort((a, b) => {
-                const nevA = a.querySelector("h3").textContent;
-                const nevB = b.querySelector("h3").textContent;
-                const arA = parseInt(a.querySelector("p:nth-of-type(2)").textContent.replace(/\D/g, ""));
-                const arB = parseInt(b.querySelector("p:nth-of-type(2)").textContent.replace(/\D/g, ""));
-
-                if (szuro === "abc_az") return nevA.localeCompare(nevB);
-                if (szuro === "abc_za") return nevB.localeCompare(nevA);
-                if (szuro === "ar_nov") return arA - arB;
-                if (szuro === "ar_csok") return arB - arA;
-
-                return 0;
-            });
-
-            rendezett.forEach(auto => kat.appendChild(auto));
+    
+        // RENDEZÉS
+        const kontener = document.getElementById("autok-halo");
+        let lathatoAutok = autok.filter(auto => auto.style.display !== "none");
+    
+        lathatoAutok.sort((a, b) => {
+            const nevA = a.querySelector("h3").textContent.toLowerCase();
+            const nevB = b.querySelector("h3").textContent.toLowerCase();
+            const arA = parseInt(a.querySelector("p:nth-of-type(2)").textContent.replace(/\D/g, ""));
+            const arB = parseInt(b.querySelector("p:nth-of-type(2)").textContent.replace(/\D/g, ""));
+    
+            if (szuro === "abc_az") return nevA.localeCompare(nevB);
+            if (szuro === "abc_za") return nevB.localeCompare(nevA);
+            if (szuro === "ar_nov") return arA - arB;
+            if (szuro === "ar_csok") return arB - arA;
+            return 0;
         });
+    
+        // ÚJRARENDEZÉS
+        lathatoAutok.forEach(auto => kontener.appendChild(auto));
     }
-
+    
+    
     keresoInput.addEventListener("input", frissitAutoLista);
     szuroSelect.addEventListener("change", frissitAutoLista);
     kategoriakSelect.addEventListener("change", () => {
@@ -266,6 +272,10 @@ window.addEventListener("DOMContentLoaded", () => {
         frissitAutoLista();
     });
 });
+document.getElementById("kategoriak-select").addEventListener("change", frissitAutoLista);
+document.getElementById("szuro-select").addEventListener("change", frissitAutoLista);
+document.getElementById("kereso-input").addEventListener("input", frissitAutoLista);
 
+// Betöltés után automatikusan frissítjük a listát
+frissitAutoLista();
 
-});

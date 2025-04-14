@@ -7,17 +7,6 @@ include 'db.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?php
-// Csatlakozás az adatbázishoz, ha még nem történt meg
-include 'db.php';
-
-$fejlecHatter = 'kepek/alap.png'; // Alapértelmezett háttérkép
-$lekerdezes = $kapcsolat->query("SELECT ertek FROM beallitasok WHERE kulcs = 'fejléc_kep'");
-if ($lekerdezes && $lekerdezes->num_rows > 0) {
-    $sor = $lekerdezes->fetch_assoc();
-    $fejlecHatter = $sor['ertek'];
-}
-?>
   <title>InnovTrade - Autókölcsönző</title>
   <?php
   // Foglalt autók kigyűjtése JavaScript változóba
@@ -43,10 +32,6 @@ if ($lekerdezes && $lekerdezes->num_rows > 0) {
   <link rel="stylesheet" href="vizsga.css">
   <script src="vizsga.js" defer></script>
   <style>
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
     .dropdown {
       position: relative;
       display: inline-block;
@@ -106,36 +91,12 @@ if ($lekerdezes && $lekerdezes->num_rows > 0) {
     section:not(#kezdolap):not(#autok) {
       display: none;
     }
-    .btn {
-    background-color: white;
-    color: black;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin: 5px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background-color: #ddd;
-}
   </style>
 </head>
 <body>
-  <header style="background: url('kepek/kep1.png') no-repeat center center; background-size: cover; padding: 60px 0; text-align: center; color: white;">
+  <header>
     <div class="header-container">
-        <img src="kepek/logo.png" alt="InnovTrade logó" style="width: 100px; border-radius: 50%;">
-        <h1 style="font-size: 3em; text-shadow: 2px 2px 5px #000;">INNOVTRADE - AUTÓKÖLCSÖNZŐ</h1>
-        <p style="font-size: 1.2em; text-shadow: 1px 1px 3px #000;">Minőségi autók minden kategóriában. Találd meg az igazit!</p>
-        <nav>
-            <a href="index.php" class="btn">Kezdőlap</a>
-            <a href="#" class="btn">Autók ▼</a>
-            <a href="foglalas.php" class="btn">Foglalás</a>
-            <a href="kapcsolat.php" class="btn">Kapcsolat</a>
-            <a href="velemenyek.php" class="btn">Vélemények</a>
-        </nav>
-    </div>
-</header>
+      <img src="kepek/logo.png" alt="InnovTrade Logó" class="logo">
       <h1>InnovTrade - Autókölcsönző</h1>
     </div>
     <p class="header-description">Minőségi autók minden kategóriában. Találd meg az igazit!</p>
@@ -145,11 +106,12 @@ if ($lekerdezes && $lekerdezes->num_rows > 0) {
         <li class="dropdown">
           <a href="#autok">Autók ▼</a>
           <div class="dropdown-menu">
-            <a href="#osszes" onclick="kategoriaMegjelenites('osszes')">Összes Autó</a>
-            <a href="#gazdasagos" onclick="kategoriaMegjelenites('gazdasagos')">Gazdaságos Autók</a>
-            <a href="#csaladi" onclick="kategoriaMegjelenites('csaladi')">Családi Autók</a>
-            <a href="#luxus" onclick="kategoriaMegjelenites('luxus')">Luxus Autók</a>
-            <a href="#sport" onclick="kategoriaMegjelenites('sport')">Sport Autók</a>
+              <a href="#osszes" onclick="kategoriaMegjelenites('osszes')">Összes</a>
+              <a href="#gazdasagos" onclick="kategoriaMegjelenites('gazdasagos')">Gazdaságos</a>
+              <a href="#csaladi" onclick="kategoriaMegjelenites('csaladi')">Családi</a>
+              <a href="#luxus" onclick="kategoriaMegjelenites('luxus')">Luxus</a>
+              <a href="#sport" onclick="kategoriaMegjelenites('sport')">Sport</a>
+
           </div>
         </li>
         <li><a href="#foglalas" onclick="megjelenitResz('foglalas')">Foglalás</a></li>
@@ -169,9 +131,7 @@ if ($lekerdezes && $lekerdezes->num_rows > 0) {
   </script>
 
 </header>
-  <div style="text-align: center; margin: 30px 0;">
-    <input type="text" id="auto-kereso" placeholder="Keresés autó név vagy márka szerint..." style="width: 60%; padding: 10px; font-size: 1rem; border-radius: 6px; border: 1px solid #ccc;">
-</div>
+
 
   
   <div id="felhasznalo-info">
@@ -230,194 +190,9 @@ if ($lekerdezes && $lekerdezes->num_rows > 0) {
       <h2>Üdvözlünk az InnovTrade Autókölcsönzőnél!</h2>
       <p>Találd meg a tökéletes autót bármilyen alkalomra. Foglalj egyszerűen és gyorsan!</p>
     </section>
-    <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-  <input type="text" id="kereso-input" placeholder="Keresés név vagy leírás alapján..." style="flex: 1; padding: 8px; font-size: 1rem;">
-  <select id="szuro-select" style="padding: 8px; font-size: 1rem;">
-    <option value="">Rendezés nélkül</option>
-    <option value="abc_az">ABC szerint (A → Z)</option>
-    <option value="abc_za">ABC szerint (Z → A)</option>
-    <option value="ar_nov">Ár szerint növekvő</option>
-    <option value="ar_csok">Ár szerint csökkenő</option>
-  </select>
-  <select id="kategoriak-select" style="padding: 8px; font-size: 1rem;">
-    <option value="osszes">Összes kategória</option>
-    <option value="gazdasagos">Gazdaságos</option>
-    <option value="csaladi">Családi</option>
-    <option value="luxus">Luxus</option>
-    <option value="sport">Sport</option>
-  </select>
-</div>
-
-    <section id="autok">
-  <h2>Bérelhető Autóink</h2>
-  <?php
-// Autók lekérdezése kategóriánként
-$kategoriaLista = [
-  'gazdasagos' => 'Gazdaságos Autók',
-  'csaladi' => 'Családi Autók',
-  'luxus' => 'Luxus Autók',
-  'sport' => 'Sport Autók'
-];
-?>
-
-<div id="osszes" class="kategoria" style="display: block;">
-  <h3>Összes Autó</h3>
-  <div class="autok-halo">
-    <?php
-    $sql = "SELECT * FROM autok";
-    $eredmeny = $kapcsolat->query($sql);
-
-    if ($eredmeny && $eredmeny->num_rows > 0) {
-        while ($auto = $eredmeny->fetch_assoc()) {
-            $kep = htmlspecialchars($auto['kep']);
-            $nev = htmlspecialchars($auto['nev']);
-            $ar = number_format($auto['ar'], 0, ',', ' ');
-            $leiras = htmlspecialchars($auto['leiras']);
-            $kategoria = htmlspecialchars($auto['kategoria']);
-
-            echo "
-            <div class=\"auto $kategoria\">
-              <img src=\"kepek/$kep\" alt=\"$nev\">
-              <h3>$nev</h3>
-              <p>Napi díj: $ar Ft</p>
-              <p>$leiras</p>
-              <button onclick=\"hozzaadKosarhoz('$nev', {$auto['ar']})\">Kosárba</button>
-            </div>
-            ";
-        }
-    } else {
-        echo "<p>Jelenleg nincs elérhető autó.</p>";
-    }
-    ?>
-  </div>
-</div>
-
-  </div>
-</div>
-</header>
-  <div style="text-align: center; margin: 30px 0;">
-    <input type="text" id="auto-kereso" placeholder="Keresés autó név vagy márka szerint..." style="width: 60%; padding: 10px; font-size: 1rem; border-radius: 6px; border: 1px solid #ccc;">
-</div>
-
-  
-  <div id="felhasznalo-info">
-    <?php if(isset($_SESSION['felhasznalo'])): ?>
-        <span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['felhasznalo']); ?></span>
-        <a href="kijelentkezes.php" title="Kijelentkezés">
-            <img src="kepek/logout_icon.png" alt="Kijelentkezés" style="width:25px; vertical-align:middle;">
-        </a>
-    <?php else: ?>
-        <a href="#" id="belepes-gomb">Bejelentkezés</a> |
-        <a href="#" id="regisztracio-gomb">Regisztráció</a>
-    <?php endif; ?>
-</div>
+    
 
 
-  
-  <!-- Regisztráció és Belépés gombok (ha nincs bejelentkezve) -->
-  <?php if(!isset($_SESSION['felhasznalo'])): ?>
-  <?php endif; ?>
-  
-  <div id="overlay"></div>
-  
-  <!-- Regisztrációs űrlap -->
-  <section id="regisztracio">
-    <h2>Regisztráció</h2>
-    <form id="regisztracio-urlap" action="regisztracio.php" method="POST">
-      <label for="felhasznalonev">Felhasználónév:</label>
-      <input type="text" id="felhasznalonev" name="felhasznalonev" required placeholder="Írd be a felhasználóneved">
-      <label for="email">Email cím:</label>
-      <input type="email" id="email" name="email" required placeholder="Írd be az email címed">
-      <label for="jelszo">Jelszó:</label>
-      <input type="password" id="jelszo" name="jelszo" required placeholder="Írd be a jelszavad">
-      <label for="jelszo_megerositese">Jelszó megerősítése:</label>
-      <input type="password" id="jelszo_megerositese" name="jelszo_megerositese" required placeholder="Erősítsd meg a jelszavad">
-      <button type="submit">Regisztrálok</button>
-    </form>
-    <button class="bezaras-gomb" onclick="zarasFelulet()">Bezárás</button>
-  </section>
-  
-  <!-- Belépési űrlap -->
-  <section id="belepes">
-    <h2>Belépés</h2>
-    <form id="belepes-urlap" action="bejelentkezes.php" method="POST">
-      <label for="felhasznalonev">Felhasználónév:</label>
-      <input type="text" id="felhasznalonev" name="felhasznalonev" required placeholder="Írd be a felhasználóneved">
-      <label for="jelszo">Jelszó:</label>
-      <input type="password" id="jelszo" name="jelszo" required placeholder="Írd be a jelszavad">
-      <button type="submit">Belépek</button>
-    </form>
-    <button class="bezaras-gomb" onclick="zarasFelulet()">Bezárás</button>
-  </section>
-  
-  <main>
-    <!-- Kezdőlap -->
-    <section id="kezdolap">
-      <h2>Üdvözlünk az InnovTrade Autókölcsönzőnél!</h2>
-      <p>Találd meg a tökéletes autót bármilyen alkalomra. Foglalj egyszerűen és gyorsan!</p>
-    </section>
-    <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-  <input type="text" id="kereso-input" placeholder="Keresés név vagy leírás alapján..." style="flex: 1; padding: 8px; font-size: 1rem;">
-  <select id="szuro-select" style="padding: 8px; font-size: 1rem;">
-    <option value="">Rendezés nélkül</option>
-    <option value="abc_az">ABC szerint (A → Z)</option>
-    <option value="abc_za">ABC szerint (Z → A)</option>
-    <option value="ar_nov">Ár szerint növekvő</option>
-    <option value="ar_csok">Ár szerint csökkenő</option>
-  </select>
-  <select id="kategoriak-select" style="padding: 8px; font-size: 1rem;">
-    <option value="osszes">Összes kategória</option>
-    <option value="gazdasagos">Gazdaságos</option>
-    <option value="csaladi">Családi</option>
-    <option value="luxus">Luxus</option>
-    <option value="sport">Sport</option>
-  </select>
-</div>
-
-    <section id="autok">
-  <h2>Bérelhető Autóink</h2>
-    <?php
-  // Autók lekérdezése kategóriánként
-  $kategoriaLista = [
-      'gazdasagos' => 'Gazdaságos Autók',
-      'csaladi' => 'Családi Autók',
-      'luxus' => 'Luxus Autók',
-      'sport' => 'Sport Autók'
-  ];
-
-  foreach ($kategoriaLista as $kategoria => $cimke) {
-      echo "<div id=\"$kategoria\" class=\"kategoria\" style=\"display:none;\">";
-      echo "<h3>$cimke</h3>";
-      echo "<div class=\"autok-halo\">";
-
-      $sql = "SELECT * FROM autok WHERE kategoria = '" . $kapcsolat->real_escape_string($kategoria) . "'";
-      $eredmeny = $kapcsolat->query($sql);
-
-      if ($eredmeny && $eredmeny->num_rows > 0) {
-          while ($auto = $eredmeny->fetch_assoc()) {
-              $kep = htmlspecialchars($auto['kep']);
-              $nev = htmlspecialchars($auto['nev']);
-              $ar = number_format($auto['ar'], 0, ',', ' ');
-              $leiras = htmlspecialchars($auto['leiras']);
-
-              echo "
-              <div class=\"auto $kategoria\">
-                <img src=\"kepek/$kep\" alt=\"$nev\">
-                <h3>$nev</h3>
-                <p>Napi díj: $ar Ft</p>
-                <p>$leiras</p>
-                <button onclick=\"hozzaadKosarhoz('$nev', {$auto['ar']})\">Kosárba</button>
-              </div>
-              ";
-          }
-      } else {
-          echo "<p>Nincs elérhető autó ebben a kategóriában.</p>";
-      }
-
-      echo "</div></div>";
-  }
-  ?>
-</section>
 
     
     <!-- Foglalás űrlap -->
@@ -534,7 +309,58 @@ if (isset($_SESSION['szamla_elkeszult']) && isset($_SESSION['szamla_fajl']) && f
         <button type="button" onclick="kapcsolatHozzaadasa()">Üzenet Küldése</button>
       </form>
     </section>
-  </main>
+  
+    <div style="text-align: center; margin: 30px 0; display: flex; justify-content: center; gap: 10px;">
+  <input type="text" id="auto-kereso" class="vékony-mezo" placeholder="Keresés autó név vagy márka szerint...">
+  <select id="rendezes" class="vékony-mezo">
+    <option value="ar_novekvo">Ár szerint növekvő</option>
+    <option value="ar_csokkeno">Ár szerint csökkenő</option>
+    <option value="nev_az">Név szerint (A-Z)</option>
+    <option value="nev_za">Név szerint (Z-A)</option>
+  </select>
+</div>
+  </form>
+</div>
+
+
+<div class="autok-halo" id="autok-halo">
+<?php
+$kapcsolat = new mysqli("localhost", "root", "", "innovtrade");
+if ($kapcsolat->connect_error) {
+    die("Sikertelen adatbáziskapcsolat: " . $kapcsolat->connect_error);
+}
+
+// Rendezés értelmezése
+$orderBy = "";
+if (isset($_GET['rendezes'])) {
+    if ($_GET['rendezes'] === "ar_nov") {
+        $orderBy = " ORDER BY ar ASC";
+    } elseif ($_GET['rendezes'] === "ar_csok") {
+        $orderBy = " ORDER BY ar DESC";
+    }
+}
+
+$lekerdezes = "SELECT * FROM autok" . $orderBy;
+$eredmeny = $kapcsolat->query($lekerdezes);
+
+if ($eredmeny && $eredmeny->num_rows > 0) {
+    while ($auto = $eredmeny->fetch_assoc()) {
+        $kategoriaklassz = strtolower($auto['kategoria']);
+        echo "<div class='auto $kategoriaklassz'>";
+        echo "<img src='kepek/{$auto['kep']}' alt='{$auto['nev']}'>";
+        echo "<h3>" . htmlspecialchars($auto['nev']) . "</h3>";
+        echo "<p>" . htmlspecialchars($auto['kategoria']) . "</p>";
+        echo "<p class='ar'>Ár: " . number_format($auto['ar'], 0, '.', ' ') . " Ft/nap</p>";
+        echo "<button onclick=\"hozzaadKosarhoz('" . htmlspecialchars($auto['nev']) . "', " . (int)$auto['ar'] . ")\">Kosárba</button>";
+        echo "</div>";
+    }
+} else {
+    echo "<p>Nincs elérhető autó az adatbázisban.</p>";
+}
+?>
+</div>
+
+</main>
   
   <footer>
         <p2>&copy; 2024 InnovTrade Autókölcsönző. Minden jog fenntartva.</p2>
@@ -545,6 +371,7 @@ if (isset($_SESSION['szamla_elkeszult']) && isset($_SESSION['szamla_fajl']) && f
             <a href="https://www.facebook.com/yourusername" target="_blank">
           <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="40" height="40">
         </a>
+        <script src="rendezes.js"></script>
     </footer>
      
   <?php
@@ -562,5 +389,11 @@ if (isset($_SESSION['szamla_elkeszult']) && isset($_SESSION['szamla_fajl']) && f
       echo "<p style='text-align:center; color:green;'>Sikeres kijelentkezés!</p>";
     }
   ?>
+
+<section id="kosar-szekcio" style="margin-top: 40px; padding: 20px;">
+  <h2 style="text-align:center;">🛒 Kosár tartalma</h2>
+  <ul id="kosar-lista" style="list-style-type: none; padding: 0;"></ul>
+  <input type="hidden" id="foglalas-autonev-hidden" name="autonev">
+</section>
 </body>
 </html>
