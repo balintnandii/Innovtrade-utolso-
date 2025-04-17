@@ -1,0 +1,110 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+session_start();
+include 'db.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $autoNevekJson = $_POST['autonev'] ?? '';
+    $autokLista = json_decode($autoNevekJson, true);
+    $datum = $_POST['datum'] ?? '';
+    $ido = $_POST['ido'] ?? '';
+    $nev = $_SESSION['felhasznalo'] ?? 'Ismeretlen';
+    $email = $_SESSION['email'] ?? 'ismeretlen@innovtrade.hu';
+
+    if (empty($autoNevekJson) || empty($datum) || empty($ido)) {
+        echo "<h3 style='color: red; text-align: center;'>❌ Hiányzó adatok a foglaláshoz!</h3>";
+        exit;
+    }
+
+    $maiDatum = date('Y-m-d');
+    if (strtotime($datum) <= strtotime($maiDatum)) {
+        echo "<h3 style='color: red; text-align: center;'>❌ Csak a mai nap utánra lehet foglalni!</h3>";
+        exit;
+    }
+
+    // Lekérjük az összes autót az adatbázisból (név => ár)
+    $autoArak = [];
+    $result = $kapcsolat->query("SELECT nev, ar FROM autok");
+    while ($sor = $result->fetch_assoc()) {
+        $autoArak[$sor['nev']] = (int)$sor['ar'];
+    }
+
+    $teljesOsszeg = 0;
+    $szamlaTetelek = [];
+
+    // Foglaltság lekérdezés
+    $foglalasok = [];
+    $eredmenyFoglalas = $kapcsolat->query("SELECT f.datum, fa.auto_nev FROM foglalasok f JOIN foglalas_autok fa ON f.id = fa.foglalas_id");
+    if ($eredmenyFoglalas && $eredmenyFoglalas->num_rows > 0) {
+        while ($sor = $eredmenyFoglalas->fetch_assoc()) {
+            $foglalasok[$sor['auto_nev']][] = $sor['datum'];
+        }
+    }
+
+    foreach ($autokLista as $auto) {
+        $autoNev = $auto['nev'];
+        $napok = (int)$auto['napok'];
+
+        if (isset($foglalasok[$autoNev]) && in_array($datum, $foglalasok[$autoNev])) {
+            echo "<h3 style='color: red; text-align: center;'>❌ A(z) {$autoNev} már le van foglalva erre a napra!</h3>";
+            exit;
+        }
+
+        if (isset($autoArak[$autoNev])) {
+            $netar = $autoArak[$autoNev];
+            $osszeg = $netar * $napok;
+            $teljesOsszeg += $osszeg;
+            $szamlaTetelek[] = [
+                'termek' => $autoNev,
+                'darab'  => $napok,
+                'netar'  => $netar,
+                'osszeg' => $osszeg
+            ];
+        }
+    }
+
+    // Számla mentése session-be
+    $_SESSION['szamla_adatok'] = [
+        'felhasznalo_nev' => $nev,
+        'felhasznalo_email' => $email,
+        'datum' => $datum,
+        'szamla_sorszam' => "INV" . date("Ymd") . rand(1000, 9999),
+        'tetel_lista' => $szamlaTetelek,
+        'teljes_osszeg' => $teljesOsszeg
+    ];
+    $_SESSION['felhasznalo'] = $nev;
+    $_SESSION['email'] = $email;
+
+    // Felhasználó ID lekérése
+    $sql = "SELECT id FROM felhasznalok WHERE email = '$email'";
+    $eredmeny = $kapcsolat->query($sql);
+    if ($eredmeny && $eredmeny->num_rows > 0) {
+        $sor = $eredmeny->fetch_assoc();
+        $felhasznalo_id = $sor['id'];
+    } else {
+        echo "<h3 style='color: red; text-align: center;'>❌ Felhasználó nem található!</h3>";
+        exit;
+    }
+
+    // Foglalás mentés
+    $kapcsolat->query("INSERT INTO foglalasok (felhasznalo_id, datum, ido, osszeg) VALUES ('$felhasznalo_id', '$datum', '$ido', '$teljesOsszeg')");
+    $foglalas_id = $kapcsolat->insert_id;
+
+    foreach ($autokLista as $auto) {
+        $autoNev = $auto['nev'];
+        $stmt = $kapcsolat->prepare("INSERT INTO foglalas_autok (foglalas_id, auto_nev) VALUES (?, ?)");
+        $stmt->bind_param("is", $foglalas_id, $autoNev);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    $_SESSION['szamla_elkeszult'] = true;
+
+    require_once 'pdf/pdf_generalas.php';
+    require_once 'szamla_kuldes.php';
+
+    header("Location: foglalas_koszonjuk.php");
+    exit;
+}
+?>
