@@ -1,0 +1,82 @@
+ <!-- Bal oldali kép -->
+    <div style="flex: 1 1 500px;">
+           
+    </div>
+
+    <!-- Jobb oldali szövegek + gomb + slider vélemények -->
+
+    <div style="
+  background-image: url('kepek/kezdolaphatter.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 80px 20px;
+  color: #fff;
+  position: relative;
+">
+  <!-- Sötét overlay -->
+  <div style="
+    background: rgba(0, 0, 0, 0.55);
+    padding: 60px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  ">
+    <h2 style="font-size: 3rem; color: #00bfff; margin-bottom: 30px;">
+      Fedezd fel a vezetés élményét
+    </h2>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 20px;">
+      Az InnovTrade a megbízhatóság, rugalmasság és élmény vezetője. Akár a városban, akár a természetben jársz, nálunk mindig megtalálod a hozzád illő járművet.
+    </p>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 20px;">
+      Modern flottánk és villámgyors foglalási rendszerünk lehetővé teszi, hogy gondtalanul elindulj – bármikor, bárhová.
+    </p>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px;">
+      Indulj velünk, és tapasztald meg az autóbérlés új szintjét: egyszerű, átlátható, megbízható.
+    </p>
+    <a href="#autok" onclick="megjelenitResz('autok')" style="
+      display: inline-block;
+      background-color: #0077cc;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+      transition: background-color 0.3s ease;
+    ">🚗 Nézd meg autóinkat</a>
+  </div>
+</div>
+
+
+      <!-- Vélemény slider -->
+      <div style="margin-top: 40px; overflow-x: auto; display: flex; gap: 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+        <div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+          <p style="font-style: italic;">„Tökéletes bérlési élmény, azonnal indulhattunk.”</p>
+          <p style="font-weight: bold;">– Dóra</p>
+        </div>
+        <div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+          <p style="font-style: italic;">„Nagyon kényelmes, gyors, ajánlom mindenkinek.”</p>
+          <p style="font-weight: bold;">– Gergő</p>
+        </div>
+        <div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+          <p style="font-style: italic;">„A természetbe vágytunk – és el is jutottunk!”</p>
+          <p style="font-weight: bold;">– Petra</p>
+        </div>
+        <div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+  <p style="font-style: italic;">„Gyors ügyintézés, rugalmas hozzáállás – pont erre volt szükségem!”</p>
+  <p style="font-weight: bold;">– Ádám</p>
+</div>
+<div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+  <p style="font-style: italic;">„Az autó tökéletes állapotban volt, a túránk gondtalanul zajlott.”</p>
+  <p style="font-weight: bold;">– Kitti</p>
+</div>
+<div style="flex: 0 0 300px; scroll-snap-align: center; background: rgba(0,0,0,0.06); padding: 20px; border-radius: 10px;">
+  <p style="font-style: italic;">„Nagyon segítőkész csapat, minden kérdésemre választ kaptam.”</p>
+  <p style="font-weight: bold;">– Norbi</p>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
